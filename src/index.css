@@ -50,9 +50,9 @@
     --glass-border: 244 75% 59% / 0.18;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-surface: linear-gradient(180deg, hsl(45 100% 99%), hsl(45 80% 96%));
-    --gradient-preview: radial-gradient(ellipse at top, hsl(244 100% 97%), hsl(45 100% 98%));
+    --gradient-primary: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--primary)));
+    --gradient-surface: linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+    --gradient-preview: radial-gradient(120% 80% at 50% 0%, hsl(var(--primary) / 0.05), hsl(var(--background)) 62%);
 
     /* Shadows — whisper-soft */
     --shadow-soft: 0 2px 12px -4px hsl(244 50% 30% / 0.06);
@@ -112,9 +112,9 @@
     --glass: 222 40% 13% / 0.6;
     --glass-border: 173 40% 50% / 0.15;
 
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-surface: linear-gradient(180deg, hsl(222 45% 9%), hsl(222 47% 6%));
-    --gradient-preview: radial-gradient(ellipse at top, hsl(222 50% 14%), hsl(222 50% 6%));
+    --gradient-primary: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--primary)));
+    --gradient-surface: linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+    --gradient-preview: radial-gradient(120% 90% at 50% 0%, hsl(var(--primary) / 0.12), hsl(var(--background)) 66%);
 
     --shadow-soft: 0 4px 16px -4px hsl(0 0% 0% / 0.4);
     --shadow-glow: 0 0 40px -4px hsl(var(--primary) / 0.45);

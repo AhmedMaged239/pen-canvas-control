@@ -44,6 +44,19 @@ function hexToHslTuple(hex: string): string | null {
   return `${Math.round(h)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
 }
 
+/** Pick black/white foreground for best contrast on a solid hex background. */
+function bestContrastTextHex(bgHex: string): "#111827" | "#FFFFFF" {
+  const m = /^#?([a-f\d]{6})$/i.exec(bgHex.trim());
+  if (!m) return "#FFFFFF";
+  const int = parseInt(m[1], 16);
+  const r = (int >> 16) & 255;
+  const g = (int >> 8) & 255;
+  const b = int & 255;
+  // YIQ luma heuristic works well for UI foreground decisions.
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  return yiq >= 150 ? "#111827" : "#FFFFFF";
+}
+
 /** Apply a theme's variables to :root and bridge into shadcn HSL tokens. */
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
@@ -56,6 +69,11 @@ function applyTheme(theme: Theme) {
   // 2. Map theme palette to shadcn's HSL token system so existing components
   //    (Button, Switch, Slider, Card, etc.) reflect the active theme.
   const c = theme.colors;
+  const primaryFg = bestContrastTextHex(c["--color-primary"]);
+  const accentFg = bestContrastTextHex(c["--color-accent"]);
+  const successFg = bestContrastTextHex(c["--color-success"]);
+  const warningFg = bestContrastTextHex(c["--color-warning"]);
+  const dangerFg = bestContrastTextHex(c["--color-danger"]);
   const map: Record<string, string | null> = {
     "--background": hexToHslTuple(c["--bg-primary"]),
     "--foreground": hexToHslTuple(c["--text-primary"]),
@@ -64,27 +82,29 @@ function applyTheme(theme: Theme) {
     "--popover": hexToHslTuple(c["--bg-surface"]),
     "--popover-foreground": hexToHslTuple(c["--text-primary"]),
     "--primary": hexToHslTuple(c["--color-primary"]),
-    "--primary-foreground": hexToHslTuple(c["--text-inverse"]),
-    "--primary-glow": hexToHslTuple(c["--color-primary-light"]),
+    "--primary-foreground": hexToHslTuple(primaryFg),
+    // Use hover tone (not the very light tint) to keep gradient buttons legible.
+    "--primary-glow": hexToHslTuple(c["--color-primary-hover"]),
     "--secondary": hexToHslTuple(c["--color-secondary"]),
     "--secondary-foreground": hexToHslTuple(c["--text-primary"]),
     "--muted": hexToHslTuple(c["--color-primary-light"]),
-    "--muted-foreground": hexToHslTuple(c["--text-muted"]),
+    // Promote muted text to secondary for better readability in controls.
+    "--muted-foreground": hexToHslTuple(c["--text-secondary"]),
     "--accent": hexToHslTuple(c["--color-accent"]),
-    "--accent-foreground": hexToHslTuple(c["--text-inverse"]),
+    "--accent-foreground": hexToHslTuple(accentFg),
     "--success": hexToHslTuple(c["--color-success"]),
-    "--success-foreground": hexToHslTuple(c["--text-inverse"]),
+    "--success-foreground": hexToHslTuple(successFg),
     "--warning": hexToHslTuple(c["--color-warning"]),
-    "--warning-foreground": hexToHslTuple(c["--text-primary"]),
+    "--warning-foreground": hexToHslTuple(warningFg),
     "--destructive": hexToHslTuple(c["--color-danger"]),
-    "--destructive-foreground": hexToHslTuple(c["--text-inverse"]),
+    "--destructive-foreground": hexToHslTuple(dangerFg),
     "--border": hexToHslTuple(c["--border-color"]),
     "--input": hexToHslTuple(c["--border-color"]),
     "--ring": hexToHslTuple(c["--color-primary"]),
     "--sidebar-background": hexToHslTuple(c["--bg-surface"]),
     "--sidebar-foreground": hexToHslTuple(c["--text-primary"]),
     "--sidebar-primary": hexToHslTuple(c["--color-primary"]),
-    "--sidebar-primary-foreground": hexToHslTuple(c["--text-inverse"]),
+    "--sidebar-primary-foreground": hexToHslTuple(primaryFg),
     "--sidebar-accent": hexToHslTuple(c["--color-primary-light"]),
     "--sidebar-accent-foreground": hexToHslTuple(c["--text-primary"]),
     "--sidebar-border": hexToHslTuple(c["--border-color"]),

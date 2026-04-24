@@ -6,6 +6,7 @@ import {
   Undo2, Redo2, Eraser, PenTool, Trash2, X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "@/themes/useTheme";
 
 interface Stroke {
   color: string;
@@ -13,8 +14,6 @@ interface Stroke {
   mode: "pen" | "eraser";
   points: { x: number; y: number }[];
 }
-
-const COLORS = ["#0F172A", "#14B8A6", "#F59E0B", "#EF4444", "#3B82F6", "#22C55E", "#A855F7"];
 
 export function Whiteboard() {
   const { state, set } = useApp();

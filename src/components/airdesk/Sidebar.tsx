@@ -272,12 +272,13 @@ export function Sidebar() {
 
       {/* EXTRAS */}
       <Section title="Extras" icon={<Sparkles className="h-3.5 w-3.5" />} defaultOpen={false}>
-        <Row label="Dark theme">
-          <Switch
-            checked={state.theme === "dark"}
-            onCheckedChange={(v) => { const t = v ? "dark" : "light"; set({ theme: t }); bridge.setTheme(t); }}
-          />
-        </Row>
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={() => set({ themeTabVisible: true })}
+        >
+          🎨 Open Theme picker
+        </Button>
         <Button variant="outline" className="w-full" onClick={() => set({ shortcutHelpVisible: true })}>
           Show keyboard shortcuts
         </Button>

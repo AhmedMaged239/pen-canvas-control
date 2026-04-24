@@ -42,6 +42,7 @@ export interface AppState {
   // UI
   theme: "dark" | "light";
   whiteboardVisible: boolean;
+  themeTabVisible: boolean;
   shortcutHelpVisible: boolean;
   previewClickMode: "none" | "sampleColor" | "manualCorner";
   statusOverlayText: string;
@@ -83,8 +84,9 @@ const initial: AppState = {
   edgeScrollOn: false,
   edgeScrollSpeed: 1,
 
-  theme: "dark",
+  theme: "light",
   whiteboardVisible: false,
+  themeTabVisible: false,
   shortcutHelpVisible: false,
   previewClickMode: "none",
   statusOverlayText: "Camera disabled — enable it from the sidebar",
@@ -113,11 +115,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initial);
   const set = (p: Partial<AppState>) => dispatch({ type: "patch", payload: p });
 
-  // Apply theme to <html>
-  useEffect(() => {
-    const root = document.documentElement;
-    root.classList.toggle("dark", state.theme === "dark");
-  }, [state.theme]);
+  // (Theme handling moved to ThemeProvider — all themes are light.)
 
   // Auto status text based on camera state
   useEffect(() => {

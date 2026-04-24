@@ -6,6 +6,7 @@ import {
   Undo2, Redo2, Eraser, PenTool, Trash2, X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "@/themes/useTheme";
 
 interface Stroke {
   color: string;
@@ -14,17 +15,58 @@ interface Stroke {
   points: { x: number; y: number }[];
 }
 
-const COLORS = ["#0F172A", "#14B8A6", "#F59E0B", "#EF4444", "#3B82F6", "#22C55E", "#A855F7"];
-
 export function Whiteboard() {
   const { state, set } = useApp();
+  const { currentTheme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [strokes, setStrokes] = useState<Stroke[]>([]);
   const [redo, setRedo] = useState<Stroke[]>([]);
   const [drawing, setDrawing] = useState<Stroke | null>(null);
-  const [color, setColor] = useState("#14B8A6");
+
+  // Palette derived from active theme — primary, accent, success, warning, danger,
+  // text, plus a neutral ink color, so the picker always feels native to the theme.
+  const tc = currentTheme.colors;
+  const COLORS = [
+    tc["--text-primary"],
+    tc["--color-primary"],
+    tc["--color-accent"],
+    tc["--color-success"],
+    tc["--color-warning"],
+    tc["--color-danger"],
+    tc["--color-secondary"],
+  ];
+
+  const [color, setColor] = useState(tc["--color-primary"]);
   const [width, setWidth] = useState(3);
   const [mode, setMode] = useState<"pen" | "eraser">("pen");
+
+  // Keep the active pen color in sync with theme changes.
+  useEffect(() => {
+    setColor(currentTheme.colors["--color-primary"]);
+  }, [currentTheme.id]);
+
+  // Demo stroke when previewing a theme from the Theme tab.
+  useEffect(() => {
+    if (!state.whiteboardVisible) return;
+    if (!state.infoMessage.startsWith("Previewing theme")) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const w = canvas.offsetWidth;
+    const h = canvas.offsetHeight;
+    const palette = [tc["--color-primary"], tc["--color-accent"], tc["--color-success"]];
+    const demo: Stroke[] = palette.map((col, i) => ({
+      color: col,
+      width: 6,
+      mode: "pen",
+      points: Array.from({ length: 60 }, (_, k) => ({
+        x: w * 0.15 + (w * 0.7 * k) / 59,
+        y: h * (0.35 + i * 0.15) + Math.sin(k / 5 + i) * 18,
+      })),
+    }));
+    setStrokes(demo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.whiteboardVisible, currentTheme.id]);
+
 
   const draw = () => {
     const canvas = canvasRef.current;
@@ -88,9 +130,19 @@ export function Whiteboard() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-xl animate-fade-in">
+    <div
+      className="fixed inset-0 z-50 flex flex-col animate-fade-in"
+      style={{ background: "var(--bg-overlay)", backdropFilter: "blur(20px)" }}
+    >
       {/* Top toolbar */}
-      <div className="glass border-b border-border/60 px-4 py-3 flex items-center gap-2 flex-wrap">
+      <div
+        className="border-b px-4 py-3 flex items-center gap-2 flex-wrap"
+        style={{
+          background: "var(--wb-toolbar-bg)",
+          borderColor: "var(--border-color)",
+          backdropFilter: "blur(18px) saturate(140%)",
+        }}
+      >
         <div className="flex items-center gap-1 mr-2">
           <div className="h-8 w-8 rounded-lg bg-gradient-primary grid place-items-center shadow-glow">
             <PenTool className="h-4 w-4 text-primary-foreground" />
@@ -178,7 +230,20 @@ export function Whiteboard() {
           onPointerMove={move}
           onPointerUp={end}
           onPointerLeave={end}
-          className="h-full w-full rounded-2xl bg-card border border-border shadow-card cursor-crosshair touch-none"
+          className="h-full w-full rounded-2xl border touch-none"
+          style={{
+            background: "var(--wb-canvas-bg)",
+            borderColor: "var(--border-color)",
+            boxShadow: "var(--shadow-md)",
+            cursor: drawing
+              ? `crosshair`
+              : `crosshair`,
+            // Distinct cursor tint when writing engaged: use writing color outline.
+            outline: state.writingActive
+              ? `2px solid var(--wb-cursor-writing)`
+              : "none",
+            outlineOffset: "-2px",
+          }}
         />
       </div>
 

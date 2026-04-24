@@ -1,16 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { AppStateProvider } from "@/lib/store";
+import { Sidebar } from "@/components/airdesk/Sidebar";
+import { PreviewPanel } from "@/components/airdesk/PreviewPanel";
+import { Whiteboard } from "@/components/airdesk/Whiteboard";
+import { ShortcutsDialog } from "@/components/airdesk/ShortcutsDialog";
+import { useShortcuts } from "@/components/airdesk/useShortcuts";
+import { useEffect } from "react";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+function Shell() {
+  useShortcuts();
+  useEffect(() => {
+    document.title = "AirDesk — Webcam Pen Studio";
+  }, []);
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="h-screen w-full flex overflow-hidden">
+      <Sidebar />
+      <PreviewPanel />
+      <Whiteboard />
+      <ShortcutsDialog />
     </div>
   );
-};
+}
 
-const Index = PlaceholderIndex;
+const Index = () => (
+  <AppStateProvider>
+    <Shell />
+  </AppStateProvider>
+);
 
 export default Index;

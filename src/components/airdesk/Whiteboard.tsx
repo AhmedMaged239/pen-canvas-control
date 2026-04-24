@@ -25,22 +25,22 @@ export function Whiteboard() {
 
   // Palette derived from active theme — primary, accent, success, warning, danger,
   // text, plus a neutral ink color, so the picker always feels native to the theme.
-  const c = currentTheme.colors;
+  const tc = currentTheme.colors;
   const COLORS = [
-    c["--text-primary"],
-    c["--color-primary"],
-    c["--color-accent"],
-    c["--color-success"],
-    c["--color-warning"],
-    c["--color-danger"],
-    c["--color-secondary"],
+    tc["--text-primary"],
+    tc["--color-primary"],
+    tc["--color-accent"],
+    tc["--color-success"],
+    tc["--color-warning"],
+    tc["--color-danger"],
+    tc["--color-secondary"],
   ];
 
-  const [color, setColor] = useState(c["--color-primary"]);
+  const [color, setColor] = useState(tc["--color-primary"]);
   const [width, setWidth] = useState(3);
   const [mode, setMode] = useState<"pen" | "eraser">("pen");
 
-  // Keep the active pen color in sync with theme changes when it matched the old primary.
+  // Keep the active pen color in sync with theme changes.
   useEffect(() => {
     setColor(currentTheme.colors["--color-primary"]);
   }, [currentTheme.id]);
@@ -53,7 +53,7 @@ export function Whiteboard() {
     if (!canvas) return;
     const w = canvas.offsetWidth;
     const h = canvas.offsetHeight;
-    const palette = [c["--color-primary"], c["--color-accent"], c["--color-success"]];
+    const palette = [tc["--color-primary"], tc["--color-accent"], tc["--color-success"]];
     const demo: Stroke[] = palette.map((col, i) => ({
       color: col,
       width: 6,

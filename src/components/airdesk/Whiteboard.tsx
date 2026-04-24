@@ -17,13 +17,56 @@ interface Stroke {
 
 export function Whiteboard() {
   const { state, set } = useApp();
+  const { currentTheme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [strokes, setStrokes] = useState<Stroke[]>([]);
   const [redo, setRedo] = useState<Stroke[]>([]);
   const [drawing, setDrawing] = useState<Stroke | null>(null);
-  const [color, setColor] = useState("#14B8A6");
+
+  // Palette derived from active theme — primary, accent, success, warning, danger,
+  // text, plus a neutral ink color, so the picker always feels native to the theme.
+  const c = currentTheme.colors;
+  const COLORS = [
+    c["--text-primary"],
+    c["--color-primary"],
+    c["--color-accent"],
+    c["--color-success"],
+    c["--color-warning"],
+    c["--color-danger"],
+    c["--color-secondary"],
+  ];
+
+  const [color, setColor] = useState(c["--color-primary"]);
   const [width, setWidth] = useState(3);
   const [mode, setMode] = useState<"pen" | "eraser">("pen");
+
+  // Keep the active pen color in sync with theme changes when it matched the old primary.
+  useEffect(() => {
+    setColor(currentTheme.colors["--color-primary"]);
+  }, [currentTheme.id]);
+
+  // Demo stroke when previewing a theme from the Theme tab.
+  useEffect(() => {
+    if (!state.whiteboardVisible) return;
+    if (!state.infoMessage.startsWith("Previewing theme")) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const w = canvas.offsetWidth;
+    const h = canvas.offsetHeight;
+    const palette = [c["--color-primary"], c["--color-accent"], c["--color-success"]];
+    const demo: Stroke[] = palette.map((col, i) => ({
+      color: col,
+      width: 6,
+      mode: "pen",
+      points: Array.from({ length: 60 }, (_, k) => ({
+        x: w * 0.15 + (w * 0.7 * k) / 59,
+        y: h * (0.35 + i * 0.15) + Math.sin(k / 5 + i) * 18,
+      })),
+    }));
+    setStrokes(demo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.whiteboardVisible, currentTheme.id]);
+
 
   const draw = () => {
     const canvas = canvasRef.current;

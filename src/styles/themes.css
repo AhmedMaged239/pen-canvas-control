@@ -1,0 +1,79 @@
+/* AirDesk theme variable surface.
+   The actual values are injected at runtime by ThemeProvider; the defaults
+   below match the Cosmic Vanilla palette so the app renders correctly even
+   before JS hydrates. */
+
+:root {
+  /* Backgrounds */
+  --bg-primary: #FFFCF5;
+  --bg-surface: #FFFFFF;
+  --bg-overlay: rgba(255, 252, 245, 0.78);
+
+  /* Brand */
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-primary-light: #EEF2FF;
+  --color-secondary: #E2E8F0;
+  --color-accent: #FF6B6B;
+
+  /* Status */
+  --color-success: #22C55E;
+  --color-success-bg: #DCFCE7;
+  --color-warning: #F59E0B;
+  --color-warning-bg: #FEF3C7;
+  --color-danger: #EF4444;
+  --color-danger-bg: #FEE2E2;
+
+  /* Text */
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --text-inverse: #FFFFFF;
+
+  /* Borders */
+  --border-color: #E2E8F0;
+  --border-color-hover: #CBD5E1;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(30, 41, 59, 0.06);
+  --shadow-md: 0 4px 12px rgba(30, 41, 59, 0.10);
+  --shadow-lg: 0 12px 32px rgba(30, 41, 59, 0.14);
+  --shadow-glow-primary: 0 0 32px rgba(79, 70, 229, 0.35);
+  --shadow-glow-success: 0 0 24px rgba(34, 197, 94, 0.35);
+
+  /* Preview */
+  --preview-border-active: #4F46E5;
+  --preview-border-idle: #E2E8F0;
+
+  /* Whiteboard */
+  --wb-toolbar-bg: rgba(255, 252, 245, 0.78);
+  --wb-canvas-bg: #FFFCF5;
+  --wb-cursor-default: #4F46E5;
+  --wb-cursor-writing: #FF6B6B;
+
+  /* Toggle */
+  --toggle-bg-off: #E2E8F0;
+  --toggle-bg-on: #4F46E5;
+  --toggle-knob: #FFFFFF;
+
+  /* Sidebar cards */
+  --sidebar-card-bg: #FFFFFF;
+  --sidebar-card-border: #E2E8F0;
+  --sidebar-card-hover: #EEF2FF;
+}
+
+/* Frosted glass overlay utility — uses theme overlay color */
+.theme-overlay {
+  background: var(--bg-overlay);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--border-color);
+}
+
+/* Smooth theme transitions */
+:root,
+:root * {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 220ms;
+  transition-timing-function: ease;
+}

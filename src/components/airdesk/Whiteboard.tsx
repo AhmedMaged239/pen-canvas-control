@@ -130,9 +130,19 @@ export function Whiteboard() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-xl animate-fade-in">
+    <div
+      className="fixed inset-0 z-50 flex flex-col animate-fade-in"
+      style={{ background: "var(--bg-overlay)", backdropFilter: "blur(20px)" }}
+    >
       {/* Top toolbar */}
-      <div className="glass border-b border-border/60 px-4 py-3 flex items-center gap-2 flex-wrap">
+      <div
+        className="border-b px-4 py-3 flex items-center gap-2 flex-wrap"
+        style={{
+          background: "var(--wb-toolbar-bg)",
+          borderColor: "var(--border-color)",
+          backdropFilter: "blur(18px) saturate(140%)",
+        }}
+      >
         <div className="flex items-center gap-1 mr-2">
           <div className="h-8 w-8 rounded-lg bg-gradient-primary grid place-items-center shadow-glow">
             <PenTool className="h-4 w-4 text-primary-foreground" />
@@ -220,7 +230,20 @@ export function Whiteboard() {
           onPointerMove={move}
           onPointerUp={end}
           onPointerLeave={end}
-          className="h-full w-full rounded-2xl bg-card border border-border shadow-card cursor-crosshair touch-none"
+          className="h-full w-full rounded-2xl border touch-none"
+          style={{
+            background: "var(--wb-canvas-bg)",
+            borderColor: "var(--border-color)",
+            boxShadow: "var(--shadow-md)",
+            cursor: drawing
+              ? `crosshair`
+              : `crosshair`,
+            // Distinct cursor tint when writing engaged: use writing color outline.
+            outline: state.writingActive
+              ? `2px solid var(--wb-cursor-writing)`
+              : "none",
+            outlineOffset: "-2px",
+          }}
         />
       </div>
 

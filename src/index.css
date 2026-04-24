@@ -7,69 +7,69 @@
 
 @layer base {
   :root {
-    /* Light — warm ivory */
-    --background: 40 30% 97%;
-    --foreground: 222 32% 12%;
+    /* Light — warm cream "fresh page" + creative indigo + coral */
+    --background: 45 100% 98%;          /* #FFFCF5 warm off-white */
+    --foreground: 217 33% 17%;          /* #1E293B warm slate */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 32% 12%;
+    --card: 0 0% 100%;                  /* pure white surface cards */
+    --card-foreground: 217 33% 17%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 32% 12%;
+    --popover-foreground: 217 33% 17%;
 
-    --primary: 173 80% 40%;            /* electric teal */
+    --primary: 244 75% 59%;             /* #4F46E5 creative indigo */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 173 90% 55%;
+    --primary-glow: 244 85% 72%;
 
-    --secondary: 220 15% 94%;
-    --secondary-foreground: 222 32% 18%;
+    --secondary: 214 32% 91%;           /* cool grey surface */
+    --secondary-foreground: 217 33% 17%;
 
-    --muted: 220 15% 94%;
-    --muted-foreground: 220 10% 42%;
+    --muted: 220 30% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 38 92% 55%;              /* amber */
-    --accent-foreground: 222 32% 12%;
+    --accent: 0 100% 71%;               /* #FF6B6B coral */
+    --accent-foreground: 0 0% 100%;
 
-    --success: 152 70% 45%;
+    --success: 172 66% 50%;             /* #2DD4BF mint turquoise */
     --success-foreground: 0 0% 100%;
 
-    --warning: 38 92% 55%;
-    --warning-foreground: 222 32% 12%;
+    --warning: 43 96% 56%;              /* #FBBF24 honey amber */
+    --warning-foreground: 217 33% 17%;
 
-    --destructive: 0 78% 62%;          /* soft coral */
+    --destructive: 351 95% 71%;         /* #FB7185 soft rose */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 16% 88%;
-    --input: 220 16% 88%;
-    --ring: 173 80% 40%;
+    --border: 214 32% 91%;              /* #E2E8F0 hairline */
+    --input: 214 32% 91%;
+    --ring: 244 75% 59%;
 
     --radius: 1rem;
 
     /* Glass surfaces */
-    --glass: 0 0% 100% / 0.65;
-    --glass-border: 220 20% 80% / 0.4;
+    --glass: 0 0% 100% / 0.75;
+    --glass-border: 244 75% 59% / 0.18;
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-surface: linear-gradient(180deg, hsl(220 30% 99%), hsl(220 20% 95%));
-    --gradient-preview: radial-gradient(ellipse at top, hsl(173 60% 92%), hsl(220 20% 96%));
+    --gradient-surface: linear-gradient(180deg, hsl(45 100% 99%), hsl(45 80% 96%));
+    --gradient-preview: radial-gradient(ellipse at top, hsl(244 100% 97%), hsl(45 100% 98%));
 
-    /* Shadows */
-    --shadow-soft: 0 4px 16px -4px hsl(220 30% 20% / 0.08);
-    --shadow-glow: 0 0 32px -4px hsl(var(--primary) / 0.35);
-    --shadow-card: 0 8px 28px -12px hsl(220 30% 20% / 0.18);
+    /* Shadows — whisper-soft */
+    --shadow-soft: 0 2px 12px -4px hsl(244 50% 30% / 0.06);
+    --shadow-glow: 0 0 32px -4px hsl(var(--primary) / 0.28);
+    --shadow-card: 0 8px 28px -16px hsl(244 50% 30% / 0.12);
 
     --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
     /* sidebar (shadcn) */
-    --sidebar-background: 0 0% 99%;
-    --sidebar-foreground: 222 32% 18%;
-    --sidebar-primary: 173 80% 40%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 217 33% 17%;
+    --sidebar-primary: 244 75% 59%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 94%;
-    --sidebar-accent-foreground: 222 32% 18%;
-    --sidebar-border: 220 16% 88%;
-    --sidebar-ring: 173 80% 40%;
+    --sidebar-accent: 220 30% 96%;
+    --sidebar-accent-foreground: 217 33% 17%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 244 75% 59%;
   }
 
   .dark {
